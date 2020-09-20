@@ -1,43 +1,48 @@
-package br.fai.reggistre.client.service.impl;
+package br.fai.reggistre.api.service.impl;
 
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import br.fai.reggistre.client.service.CategoryService;
+import br.fai.reggistre.api.service.CategoryService;
+import br.fai.reggistre.db.dao.CategoryDao;
 import br.fai.reggistre.model.entities.Categoria;
 
 @Service
 public class CategoryServiceImpl implements CategoryService{
 
+	@Autowired
+	private CategoryDao categoryDao;
+	
 	@Override
 	public List<Categoria> readAll() {
-		// TODO Auto-generated method stub
-		return null;
+		
+		return categoryDao.readAll();
 	}
 
 	@Override
 	public boolean create(Categoria entity) {
-		// TODO Auto-generated method stub
-		return false;
+		
+		return categoryDao.create(entity);
 	}
 
 	@Override
 	public Categoria readById(Long id) {
-		// TODO Auto-generated method stub
-		return null;
+		
+		return categoryDao.readById(id);
 	}
 
 	@Override
 	public boolean update(Categoria entity) {
-		// TODO Auto-generated method stub
-		return false;
+		
+		return categoryDao.update(entity);
 	}
 
 	@Override
 	public boolean deleteById(Long id) {
-		// TODO Auto-generated method stub
-		return false;
+		
+		return categoryDao.deleteById(id);
 	}
 
 }

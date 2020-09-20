@@ -53,7 +53,7 @@ public class UserDaoImpl implements UserDao{
 			}
 			
 		} catch (Exception e) {
-			System.out.println("userDao  DB Read all");
+			System.out.println("userDao DB Read all");
 			
 		}finally {
 			ConnectionFactory.close(resultSet, preparedStatement, connection);
@@ -146,7 +146,7 @@ public class UserDaoImpl implements UserDao{
 		PreparedStatement preparedStatement = null;
 		
 		String sql = "UPDATE pessoa_fisica SET nome_completo = ?, email = ?, email_alternativo = ? ";
-		sql += " WHERE id ? ; ";
+		sql += " WHERE id = ? ; ";
 		
 		try {
 			connection = ConnectionFactory.getConnection();

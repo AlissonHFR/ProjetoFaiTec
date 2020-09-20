@@ -1,14 +1,11 @@
-package br.fai.reggistre.db.dao;
+package br.fai.reggistre.api.service;
 
 import java.util.List;
 
 import br.fai.reggistre.model.entities.Movimentacao;
 
-
-
-public interface MovementDao {
-	
-    List<Movimentacao> readAll();
+public interface MovementService {
+	List<Movimentacao> readAll();
 	
 	boolean create(Movimentacao entity);
 		
@@ -17,5 +14,4 @@ public interface MovementDao {
 	boolean update(Movimentacao entity);
 	
 	boolean deleteById(Long id);
-
 }

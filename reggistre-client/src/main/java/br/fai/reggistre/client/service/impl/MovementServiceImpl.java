@@ -2,9 +2,12 @@ package br.fai.reggistre.client.service.impl;
 
 import java.util.List;
 
+import org.springframework.stereotype.Service;
+
 import br.fai.reggistre.client.service.MovementService;
 import br.fai.reggistre.model.entities.Movimentacao;
 
+@Service
 public class MovementServiceImpl implements MovementService{
 
 	@Override
