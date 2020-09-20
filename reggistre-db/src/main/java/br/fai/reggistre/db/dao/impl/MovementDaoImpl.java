@@ -44,6 +44,14 @@ public class MovementDaoImpl implements MovementDao{
 				movimentacao.setDescricao(resultSet.getString("descricao"));
 				movimentacao.setPessoaFisicaId(resultSet.getLong("pessoa_fisica_id"));
 				movimentacao.setTipoMovimentacao(resultSet.getString("tipo_movimentacao"));
+				
+				// provavelmente vc criou na sua tabela o campo valor como
+				// string... pois ele retornou R$800,00..
+				// esse tipo de transformacao de valores a gente vai ver 
+				// mais pra frente... por hora vc precisa somente do valor no tipo
+				// double mesmo e esquece o R$
+				// voce criou como tipo 'dinheiro'.. crie novamente a sua tabela 
+				// como double que esse erro vai embora
 				movimentacao.setValor(resultSet.getDouble("valor"));
 				
 				movimentacaoList.add(movimentacao);
@@ -53,6 +61,10 @@ public class MovementDaoImpl implements MovementDao{
 			
 		} catch (Exception e) {
 			System.out.println("Erro no movimentDaoImpl pacote DB readAll");
+			
+			// com esse print do e.getMessage ele vai exibir esse erro do formato invalido.. 
+			// faça isso no resto das exceptions  blz
+			System.out.println(e.getMessage());
 		}finally {
 			ConnectionFactory.close(resultSet, preparedStatement, connection);
 		}

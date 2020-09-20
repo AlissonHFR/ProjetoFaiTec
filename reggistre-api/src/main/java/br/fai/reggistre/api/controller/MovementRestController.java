@@ -31,6 +31,7 @@ public class MovementRestController {
 		
 		List<Movimentacao> movimentacaoList = movementService.readAll();
 		
+		///
 		if(movimentacaoList == null || movimentacaoList.size() == 0) {
 			return ResponseEntity.ok(null);
 		}else {
