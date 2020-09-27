@@ -1,10 +1,81 @@
 <!DOCTYPE html>
-<html>
+<html layout:decorate="~{layout}">
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
 </head>
 <body>
+
+	<div layout:fragment="body">
+		<div class="content">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="card card-plain table-plain-bg">
+                                <div class="card-header ">
+                                    <h4 class="card-title">Lista de Receitas</h4>
+                                    
+                                </div>
+                                <div class="card-body table-full-width table-responsive">
+                                    <table class="table table-hover">
+                                        <thead>
+                                            <th>Nome</th>
+                                            <th>Tipo</th>
+                                            <th>Valor</th>
+                                            <th>Categoria</th>
+                                           <!-- <th>City</th> --> 
+                                        </thead>
+                                        <tbody>
+                                            <tr th:each="movimentacao : ${movimentacao}" 
+                                            	>
+                                                <td th:text="${movimentacao.nome}">1</td>
+                                               <!-- <td th:text="${movimentacao.descricao}">1</td> --> 
+                                                <td th:text="${movimentacao.tipoMovimentacao}">$36,738</td>
+                                                <td th:text="${movimentacao.valor}">Niger</td>
+                                                <td th:text="${movimentacao.categoriaId}">Oud-Turnhout</td>
+                                            </tr>
+                                            
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="card card-plain table-plain-bg">
+                                <div class="card-header ">
+                                    <h4 class="card-title">Lista de Despesas</h4>
+                                    
+                                </div>
+                                <div class="card-body table-full-width table-responsive">
+                                    <table class="table table-hover">
+                                        <thead>
+                                            <th>Nome</th>
+                                            <th>Tipo</th>
+                                            <th>Valor</th>
+                                            <th>Categoria</th>
+                                           <!-- <th>City</th> --> 
+                                        </thead>
+                                        <tbody>
+                                          <!--   <tr>
+                                                <td th:text="${movimentacao.nome}">1</td>
+                                               <td th:text="${movimentacao.descricao}">1</td> 
+                                                <td th:text="${movimentacao.tipoMovimentacao}">$36,738</td>
+                                                <td th:text="${movimentacao.valor}">Niger</td>
+                                                <td th:text="${movimentacao.categoriaId}">Oud-Turnhout</td>
+                                            </tr> -->
+                                            
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+
+
+	</div>
 
 </body>
 </html>

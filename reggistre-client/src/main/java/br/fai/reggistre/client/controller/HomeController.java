@@ -11,10 +11,22 @@ public class HomeController {
 		return "home";
 	}
 	
+	
+	@GetMapping("/dashboard")
+	public String getDashboardPage() {
+		return "dashboard";
+	}
+	
 	@GetMapping("/not-found")
 	public String getNotFoundPage() {
 		return "general/not-found";
 	}
+	
+	@GetMapping("/notifications")
+	public String getNotificationsPage() {
+		return "notifications";
+	}
+	
 	
 
 }

@@ -1,55 +1,97 @@
-<!doctype html>
+<!DOCTYPE html>
 <html>
 <head>
-<meta charset="utf-8">
-<meta name="viewport"
-	content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<meta name="description" content="">
-<meta name="author" content="">
-
-
-<title>Signin Template for Bootstrap</title>
-
-<!-- Bootstrap core CSS -->
-<link href="/resources/css/bootstrap.min.css" rel="stylesheet">
-<script src="/resources/js/jquery/jquery-3.4.1.min.js"></script>
-<link href="/resources/css/styles.css" rel="stylesheet" />
-<link href="/resources/css/datatables/dataTables.bootstrap4.min.css"
-	rel="stylesheet" />
-<script src="/resources/js/font-awesome/all.min.js"></script>
-
+	<title>Reggi$tre</title>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+<!--===============================================================================================-->	
+	<!-- <link rel="icon" type="image/png" href="/resources/login/images/icons/favicon.ico"/> -->
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="/resources/login/vendor/bootstrap/css/bootstrap.min.css">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="/resources/login/fonts/font-awesome-4.7.0/css/font-awesome.min.css">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="/resources/login/fonts/Linearicons-Free-v1.0.0/icon-font.min.css">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="/resources/login/vendor/animate/animate.css">
+<!--===============================================================================================-->	
+	<link rel="stylesheet" type="text/css" href="/resources/login/vendor/css-hamburgers/hamburgers.min.css">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="/resources/login/vendor/animsition/css/animsition.min.css">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="/resources/login/vendor/select2/select2.min.css">
+<!--===============================================================================================-->	
+	<link rel="stylesheet" type="text/css" href="/resources/login/vendor/daterangepicker/daterangepicker.css">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="/resources/login/css/util.css">
+	<link rel="stylesheet" type="text/css" href="/resources/login/css/main.css">
+<!--===============================================================================================-->
 </head>
+<body>
+	
+	<div class="limiter">
+		<div class="container-login100">
+			<div class="wrap-login100">
+				<div class="login100-form-title" style="background-image: url(/resources/login/images/bg-01.jpg);">
+					<span class="login100-form-title-1">
+						Entrar
+					</span>
+				</div>
 
-<body class="text-center">
+				<form class="login100-form validate-form">
+					<div class="wrap-input100 validate-input m-b-26" data-validate="Username is required">
+						<span class="label-input100">Usuário</span>
+						<input class="input100" type="text" name="username" placeholder="Digite o usuário">
+						<span class="focus-input100"></span>
+					</div>
 
-	<form  class="form-signin" action="/"  >
-		<img class="mb-4"
-			src="/resources/imgs/login.jpeg" alt="" width="200" height="200"/>
-		<h1 class="h3 mb-3 font-weight-normal">Please sign in</h1>
-		<label for="inputEmail" class="sr-only">Email address</label> <input
-			type="email" name ="email" id="inputEmail" class="form-control"
-			placeholder="Email address" required autofocus> <label
-			for="inputPassword" name="senha" class="sr-only">Password</label> <input
-			type="password" id="inputPassword" class="form-control"
-			placeholder="Password" required>
-		<div class="checkbox mb-3">
-			<label> <input type="checkbox" value="remember-me">
-				Remember me
-			</label>
+					<div class="wrap-input100 validate-input m-b-18" data-validate = "Password is required">
+						<span class="label-input100">Senha</span>
+						<input class="input100" type="password" name="pass" placeholder="Digite a senha">
+						<span class="focus-input100"></span>
+					</div>
+
+					<div class="flex-sb-m w-full p-b-30">
+						<div class="contact100-form-checkbox">
+							<input class="input-checkbox100" id="ckb1" type="checkbox" name="remember-me">
+							<label class="label-checkbox100" for="ckb1">
+								Salvar minha senha
+							</label>
+						</div>
+
+						<div>
+							<a href="#" class="txt1">
+								Esqueceu a senha?
+							</a>
+						</div>
+					</div>
+
+					<div class="container-login100-form-btn" >
+						<a class="login100-form-btn" th:href="@{/dashboard}">
+							Entrar
+						</a>
+					</div>
+				</form>
+			</div>
 		</div>
-		<button class="btn btn-lg btn-primary btn-block" type="submit">Sign
-			in</button>
-		<p class="mt-5 mb-3 text-muted">&copy; 2017-2018</p>
-	</form>
-
-	<script src="/resources/js/bootstrap/bootstrap.bundle.min.js"></script>
-	<script src="/resources/js/scripts.js"></script>
-
-	<script src="/resources/js/datatable/jquery.dataTables.min.js"></script>
-	<script src="/resources/js/datatable/dataTables.bootstrap4.min.js"></script>
-	<script src="/resources/assets/demo/datatables-init.js"></script>
-
+	</div>
+	
+<!--===============================================================================================-->
+	<script src="/resources/login/vendor/jquery/jquery-3.2.1.min.js"></script>
+<!--===============================================================================================-->
+	<script src="/resources/login/vendor/animsition/js/animsition.min.js"></script>
+<!--===============================================================================================-->
+	<script src="/resources/login/vendor/bootstrap/js/popper.js"></script>
+	<script src="/resources/login/vendor/bootstrap/js/bootstrap.min.js"></script>
+<!--===============================================================================================-->
+	<script src="/resources/login/vendor/select2/select2.min.js"></script>
+<!--===============================================================================================-->
+	<script src="/resources/login/vendor/daterangepicker/moment.min.js"></script>
+	<script src="/resources/login/vendor/daterangepicker/daterangepicker.js"></script>
+<!--===============================================================================================-->
+	<script src="/resources/login/vendor/countdowntime/countdowntime.js"></script>
+<!--===============================================================================================-->
+	<script src="/resources/login/js/main.js"></script>
 
 </body>
 </html>
-

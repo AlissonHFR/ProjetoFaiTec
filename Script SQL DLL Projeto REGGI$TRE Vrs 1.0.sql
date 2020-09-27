@@ -30,7 +30,7 @@ create table movimentacao (
   descricao character varying(150) not null,
   data date not null,
   tipo_movimentacao character varying(20) not null,
-  valor money not null,
+  valor double not null,
   pessoa_fisica_id integer not null
   references pessoa_fisica(id) on update cascade,
   categoria_id integer not null references categoria(id) on update cascade  
