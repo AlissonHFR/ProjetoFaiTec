@@ -14,7 +14,7 @@ import br.fai.reggistre.model.entities.PessoaFisica;
 public class AccountController {
 
 	@GetMapping("/register")
-	public String getCreateAccountPage() {
+	public String getCreateAccountPage(PessoaFisica pFisica) {
 		return "account/create-account";
 	}
 	

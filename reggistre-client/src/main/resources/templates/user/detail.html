@@ -21,7 +21,7 @@
                                             <div class="col-md-5 pr-1">
                                                 <div class="form-group" >
                                                     <label >Nome Usuário (desabilitato)</label>
-                                                    <input type="text" class="form-control" disabled=""  th:field="${pFisica.nomeUsuario}" >
+                                                    <input type="text" class="form-control" disabled=""  th:field="${usuarioLogado.nomeUsuario}" >
                                                 </div>
                                             </div>
                                       
@@ -31,7 +31,7 @@
                                             <div class="col-md-12">
                                                 <div class="form-group">
                                                     <label>Nome Completo</label>
-                                                    <input type="text" class="form-control" disabled="" th:field="${pFisica.nomeCompleto}">
+                                                    <input type="text" class="form-control" disabled="" th:field="${usuarioLogado.nomeCompleto}">
                                                 </div>
                                             </div>
                                         </div>
@@ -39,20 +39,20 @@
                                             <div class="col-md-6 pr-1">
                                                 <div class="form-group">
                                                     <label>E-mail</label>
-                                                    <input type="text" class="form-control" disabled="" th:field="${pFisica.email}">
+                                                    <input type="text" class="form-control" disabled="" th:field="${usuarioLogado.email}">
                                                 </div>
                                             </div>
                                             <div class="col-md-6 pl-1">
                                                 <div class="form-group">
                                                     <label>E-mail Alternativo</label>
-                                                    <input type="text" class="form-control" disabled="" th:field="${pFisica.emailAlternativo}">
+                                                    <input type="text" class="form-control" disabled="" th:field="${usuarioLogado.emailAlternativo}">
                                                 </div>
                                             </div>
                                         </div>
                                         
                              
                                        
-                                        <a  class="btn btn-info btn-fill pull-right" th:href="@{/user/edit/1}">Editar perfil</a>
+                                        <a  class="btn btn-info btn-fill pull-right" th:href="@{/user/edit/{id} (id=${usuarioLogado.id})}">Editar perfil</a>
                                         <div class="clearfix"></div>
                                     </form>
                                 </div>

@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -64,17 +65,21 @@ public class UserDaoImpl implements UserDao{
 	}
 
 	@Override
-	public boolean create(PessoaFisica entity) {
+	public Long create(PessoaFisica entity) {
 		Connection connection = null;
 		PreparedStatement preparedStatement = null;
+		ResultSet resultSet = null;
 		
-		String sql = "INSERT INTO pessoa_fisica (nome_usuario, nome_completo, email, email_alternativo, senha) ";
+		String sql = "INSERT INTO pessoa_fisica (nome_usuario, nome_completo, email, email_alternativo, md5(senha)) ";
 		sql+= " VALUES (?, ?, ?, ?, ?); ";
+		
+		Long id = Long.valueOf(0);
+		
 		try {
 			connection = ConnectionFactory.getConnection();
 			connection.setAutoCommit(false);
 			
-			preparedStatement = connection.prepareStatement(sql);
+			preparedStatement = connection.prepareStatement(sql , Statement.RETURN_GENERATED_KEYS);
 			
 			preparedStatement.setString(1, entity.getNomeUsuario());
 			preparedStatement.setString(2, entity.getNomeCompleto());
@@ -84,8 +89,13 @@ public class UserDaoImpl implements UserDao{
 			
 			preparedStatement.execute();
 			
+			resultSet = preparedStatement.getGeneratedKeys();
+			if(resultSet.next()) {
+				id = resultSet.getLong(1);
+			}
+			
 			connection.commit();
-			return true;
+			return id;
 		} catch (Exception e) {
 			
 			try {
@@ -94,10 +104,10 @@ public class UserDaoImpl implements UserDao{
 				System.out.println("userDao  DB create");
 				e1.printStackTrace();
 			}
-			return false;
+			return id;
 			
 		}finally {
-			ConnectionFactory.close(preparedStatement, connection);
+			ConnectionFactory.close(resultSet, preparedStatement, connection);
 		}
 		
 	}
@@ -208,4 +218,42 @@ public class UserDaoImpl implements UserDao{
 		}
 	}
 
+	//Parte do login
+		@Override
+		public PessoaFisica readByLogin(String nomeUsuario, String senha) {
+			
+			PessoaFisica pFisica = null;
+			
+			Connection connection = null;
+			PreparedStatement preparedStatement = null;
+			ResultSet resultSet = null;
+			connection = ConnectionFactory.getConnection();
+			String sql = "SELECT * FROM pessoa_fisica WHERE nome_usuario = ? and senha = ?;";
+			
+			try {
+				
+				preparedStatement = connection.prepareStatement(sql);
+				preparedStatement.setString(1, nomeUsuario);
+				preparedStatement.setString(2, senha);
+				
+				resultSet = preparedStatement.executeQuery();
+				
+				if(resultSet.next()) {
+					pFisica = new PessoaFisica();
+					pFisica.setId(resultSet.getLong("id"));
+					pFisica.setNomeUsuario(resultSet.getString("nome_usuario"));
+					pFisica.setNomeCompleto(resultSet.getString("nome_completo"));
+					pFisica.setEmail(resultSet.getString("email"));
+					pFisica.setEmailAlternativo(resultSet.getString("email_alternativo"));
+					pFisica.setSenha(resultSet.getString("senha"));
+				}
+				
+			} catch (Exception e) {
+				System.out.println("userDao  DB Read by Login");
+			}finally {
+				ConnectionFactory.close(resultSet, preparedStatement, connection);
+			}
+			return pFisica;
+		}
+	
 }

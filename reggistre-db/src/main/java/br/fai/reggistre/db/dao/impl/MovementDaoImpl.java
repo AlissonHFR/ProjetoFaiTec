@@ -12,6 +12,7 @@ import org.springframework.stereotype.Repository;
 
 import br.fai.reggistre.db.connection.ConnectionFactory;
 import br.fai.reggistre.db.dao.MovementDao;
+import br.fai.reggistre.model.entities.Categoria;
 import br.fai.reggistre.model.entities.Movimentacao;
 
 @Repository
@@ -29,7 +30,10 @@ public class MovementDaoImpl implements MovementDao{
 		try {
 			
 			connection = ConnectionFactory.getConnection();
-			String sql = "SELECT * FROM movimentacao ; ";
+			String sql = "select m.id, m.nome as m_nome, m.categoria_id, m.data, m.descricao, m.pessoa_fisica_id, " +
+					 " m.tipo_movimentacao, m.valor, c.nome as c_nome, c.tipo as c_tipo from movimentacao m " + 
+					" inner join categoria c on " + 
+					" m.categoria_id = c.id ";
 			
 			preparedStatement = connection.prepareStatement(sql);
 			
@@ -37,22 +41,21 @@ public class MovementDaoImpl implements MovementDao{
 			
 			while(resultSet.next()) {
 				Movimentacao movimentacao = new Movimentacao();
+				
 				movimentacao.setId(resultSet.getLong("id"));
-				movimentacao.setNome(resultSet.getString("nome"));
+				movimentacao.setNome(resultSet.getString("m_nome"));
 				movimentacao.setCategoriaId(resultSet.getLong("categoria_id"));
 				movimentacao.setData(resultSet.getDate("data"));
 				movimentacao.setDescricao(resultSet.getString("descricao"));
 				movimentacao.setPessoaFisicaId(resultSet.getLong("pessoa_fisica_id"));
 				movimentacao.setTipoMovimentacao(resultSet.getString("tipo_movimentacao"));
-				
-				// provavelmente vc criou na sua tabela o campo valor como
-				// string... pois ele retornou R$800,00..
-				// esse tipo de transformacao de valores a gente vai ver 
-				// mais pra frente... por hora vc precisa somente do valor no tipo
-				// double mesmo e esquece o R$
-				// voce criou como tipo 'dinheiro'.. crie novamente a sua tabela 
-				// como double que esse erro vai embora
 				movimentacao.setValor(resultSet.getDouble("valor"));
+				movimentacao.setCategoria(new Categoria());
+				
+				movimentacao.getCategoria().setNome(resultSet.getString("c_nome"));
+				movimentacao.getCategoria().setTipo(resultSet.getString("c_tipo"));
+				
+				
 				
 				movimentacaoList.add(movimentacao);
 				

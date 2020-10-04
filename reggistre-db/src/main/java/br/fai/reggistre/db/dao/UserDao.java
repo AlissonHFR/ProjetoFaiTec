@@ -8,7 +8,7 @@ public interface UserDao {
 	
 	List<PessoaFisica> readAll();
 	
-	boolean create(PessoaFisica entity);
+	Long create(PessoaFisica entity);
 		
 	PessoaFisica readById(Long id);
 	
@@ -16,4 +16,5 @@ public interface UserDao {
 	
 	boolean deleteById(Long id);
 
+	PessoaFisica readByLogin(String nomeUsuario, String senha);
 }

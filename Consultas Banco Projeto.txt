@@ -1,0 +1,25 @@
+---**---
+De uma pessoa, listar apenas as receitas e despesas(tipo de movimentação)
+------------------------------
+select * from categoria C  inner join pessoa_fisica PF on PF.id = C.pessoa_fisica_id  inner join movimentacao M on M.pessoa_fisica_id = PF.id where PF.id = ? and tipo = '?'			
+------------------------------
+
+---**---
+Somar todas as receitas e despesas e ver se ela tá com as finanças positivas ou negativas. RF17
+------------------------------
+select * from movimentacao M
+inner join pessoa_fisica PF on PF.id = M.pessoa_fisica_id
+inner join categoria C on C.id = M.categoria_id
+where PF.id = '?';
+------------------------------
+
+
+---**---
+Buscar por categoria de despesa e receita.
+------------------------------
+select * from categoria C where C.nome = '?';
+------------------------------
+
+
+Dicas -> 
+Na movimentacao, nos tipos, no banco salvar "1,2,3,4,5,6,7,8,9,etc" e na aplicação filtrar -> 1 é iso, 2 é aquilo 3 é outro etc... o banco ficar mais suave e com menos processamento ... (Isso foi uma dica da Eunice no meu projeto, tinhamos tipos de usuarios "Comum" e "Admin" e "PoderPublico" algo assim, ai salvamos no banco somente "C" "A" e "P", e no model/controller a gente filtrava: Se tipo fosse C, era comum e etc.

@@ -11,6 +11,15 @@ public class Movimentacao extends BasePojo {
 	private double valor;
 	private Long pessoaFisicaId;
 	private Long categoriaId;
+	
+	private Categoria categoria;
+	
+	public Categoria getCategoria() {
+		return categoria;
+	}
+	public void setCategoria(Categoria categoria) {
+		this.categoria = categoria;
+	}
 	public String getNome() {
 		return nome;
 	}

@@ -22,7 +22,7 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public boolean create(PessoaFisica entity) {
+	public Long create(PessoaFisica entity) {
 		
 		return userDao.create(entity);
 	}
@@ -43,6 +43,12 @@ public class UserServiceImpl implements UserService {
 	public boolean deleteById(Long id) {
 		
 		return userDao.deleteById(id);
+	}
+
+	@Override
+	public PessoaFisica readByLogin(String nomeUsuario, String senha) {
+		
+		return userDao.readByLogin(nomeUsuario, senha);
 	}
 
 }

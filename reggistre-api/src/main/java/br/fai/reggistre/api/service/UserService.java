@@ -8,12 +8,14 @@ public interface UserService {
 
 	List<PessoaFisica> readAll();
 	
-	boolean create(PessoaFisica entity);
+	Long create(PessoaFisica entity);
 		
 	PessoaFisica readById(Long id);
 	
 	boolean update(PessoaFisica entity);
 	
 	boolean deleteById(Long id);
+	
+	PessoaFisica readByLogin(String nomeUsuario, String senha);
 	
 }
