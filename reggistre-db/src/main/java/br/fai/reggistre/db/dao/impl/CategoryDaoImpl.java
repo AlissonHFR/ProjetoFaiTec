@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -53,10 +54,12 @@ public class CategoryDaoImpl implements CategoryDao{
 	}
 
 	@Override
-	public boolean create(Categoria entity) {
+	public Long create(Categoria entity) {
 		
 		Connection connection = null;
 		PreparedStatement preparedStatement = null;
+		ResultSet resultSet = null;
+		Long id = Long.valueOf(0);
 		
 		String sql = "INSERT INTO categoria (nome, pessoa_fisica_id, tipo, icone) ";
 		sql += " VALUES (?, ?, ?, ?); " ; 
@@ -65,7 +68,7 @@ public class CategoryDaoImpl implements CategoryDao{
 			connection = ConnectionFactory.getConnection();
 			connection.setAutoCommit(false);
 			
-			preparedStatement  = connection.prepareStatement(sql);
+			preparedStatement  = connection.prepareStatement(sql , Statement.RETURN_GENERATED_KEYS);
 			
 			preparedStatement.setString(1, entity.getNome());
 			preparedStatement.setLong(2, entity.getPessoaFisicaId());
@@ -73,9 +76,14 @@ public class CategoryDaoImpl implements CategoryDao{
 			preparedStatement.setInt(4, entity.getIcone());
 			
 			preparedStatement.execute();
+			resultSet = preparedStatement.getGeneratedKeys();
+			if(resultSet.next()) {
+				id =resultSet.getLong(1);
+				
+			}
 			
 			connection.commit();
-			return true;
+			return id;
 			
 			
 		} catch (Exception e) {
@@ -85,7 +93,7 @@ public class CategoryDaoImpl implements CategoryDao{
 				System.out.println("CategotyDaoImpl pacote DB create");
 				e1.printStackTrace();
 			}
-			return false;
+			return id;
 		}finally {
 			ConnectionFactory.close(preparedStatement, connection);
 		}

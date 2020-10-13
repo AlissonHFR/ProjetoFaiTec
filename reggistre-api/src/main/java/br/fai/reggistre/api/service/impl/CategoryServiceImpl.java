@@ -22,7 +22,7 @@ public class CategoryServiceImpl implements CategoryService{
 	}
 
 	@Override
-	public boolean create(Categoria entity) {
+	public Long create(Categoria entity) {
 		
 		return categoryDao.create(entity);
 	}

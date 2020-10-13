@@ -10,7 +10,7 @@ public interface MovementDao {
 	
     List<Movimentacao> readAll();
 	
-	boolean create(Movimentacao entity);
+	Long create(Movimentacao entity);
 		
 	Movimentacao readById(Long id);
 	

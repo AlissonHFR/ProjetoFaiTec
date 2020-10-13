@@ -64,11 +64,11 @@ public class MovementRestController {
 	}
 	
 	@PostMapping("/create")
-	public ResponseEntity<Boolean> create(@RequestBody Movimentacao entity){
+	public ResponseEntity<Long> create(@RequestBody Movimentacao entity){
 		
-		boolean response = movementService.create(entity);
+		Long id = movementService.create(entity);
 		
-		return ResponseEntity.ok(response);
+		return ResponseEntity.ok(id);
 		
 	}
 	

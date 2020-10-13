@@ -11,7 +11,7 @@ create table pessoa_fisica (
   email character varying(30) not null,
   email_alternativo character varying(30) not null,
   senha character varying(40) not null
-  	
+
 );
 
 create table categoria (
@@ -21,7 +21,7 @@ create table categoria (
   icone integer not null,
   pessoa_fisica_id integer not null
   references pessoa_fisica(id) on update cascade
-  	
+
 );
 
 create table movimentacao (
@@ -33,9 +33,9 @@ create table movimentacao (
   valor float not null,
   pessoa_fisica_id integer not null
   references pessoa_fisica(id) on update cascade,
-  categoria_id integer not null references categoria(id) on update cascade  
+  categoria_id integer not null references categoria(id) on update cascade
 );
 
 alter sequence categoria_id_seq restart with 10;
 alter sequence pessoa_fisica_id_seq restart with 10;
-alter sequence movimentacao_id_seq restart with 15;
+alter sequence movimentacao_id_seq restart with 25;

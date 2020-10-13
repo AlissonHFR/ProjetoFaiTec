@@ -23,7 +23,7 @@ public class MovementServiceImpl implements MovementService {
 	}
 
 	@Override
-	public boolean create(Movimentacao entity) {
+	public Long create(Movimentacao entity) {
 		
 		return movementDao.create(entity);
 	}

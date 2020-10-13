@@ -9,12 +9,12 @@ import org.springframework.web.servlet.ModelAndView;
 @Controller
 public class HomeController {
 	int erroLogin;
+
 	@GetMapping("/")
 	public String getHomePage() {
 		return "home";
 	}
-	
-	
+
 	@GetMapping("/dashboard")
 	public ModelAndView getDashboardPage(HttpSession session) throws Exception {
 		ModelAndView mv = null;
@@ -32,17 +32,19 @@ public class HomeController {
 		return mv;
 	}
 
-	
 	@GetMapping("/not-found")
 	public String getNotFoundPage() {
 		return "general/not-found";
 	}
-	
+
 	@GetMapping("/notifications")
-	public String getNotificationsPage() {
-		return "notifications";
+	public ModelAndView getNotificationsPage(HttpSession session) {
+		ModelAndView mv = null;
+
+		mv = new ModelAndView("notifications");
+		mv.addObject("usuarioLogado", session.getAttribute("usuarioLogado"));
+
+		return mv;
 	}
-	
-	
 
 }

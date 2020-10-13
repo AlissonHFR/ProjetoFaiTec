@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -77,19 +78,23 @@ public class MovementDaoImpl implements MovementDao{
 	}
 	
 	@Override
-	public boolean create(Movimentacao entity) {
+	public Long create(Movimentacao entity) {
 		Connection connection = null;
 		PreparedStatement preparedStatement = null;
+		ResultSet resultSet = null;
 		
 		String sql = "INSERT INTO movimentacao (nome, categoria_id, data, descricao, pessoa_fisica_id, tipo_movimentacao, valor) ";
 		sql+= " VALUES (?, ?, ?, ?, ?, ?, ?); ";
+		
+		Long id = Long.valueOf(0);
 		
 		try {
 			
 			connection = ConnectionFactory.getConnection();
 			connection.setAutoCommit(false);
 			
-			preparedStatement = connection.prepareStatement(sql);
+			
+			preparedStatement = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
 			
 			
 			preparedStatement.setString(1, entity.getNome());
@@ -101,21 +106,27 @@ public class MovementDaoImpl implements MovementDao{
 			preparedStatement.setDouble(7, entity.getValor());
 			
 			preparedStatement.execute();
+			resultSet = preparedStatement.getGeneratedKeys();
+			if(resultSet.next()) {
+				id = resultSet.getLong(1);
+			}
 			
 			connection.commit();
-			return true;
+			return id;
 			
 			
 		} catch (Exception e) {
+			System.out.println(e.getMessage());
 			try {
 				connection.rollback();
 			} catch (SQLException e1) {
+				System.out.println(e.getMessage());
 				System.out.println("MovementDaoImpl pacote DB create");
 				e1.printStackTrace();
 			}
-			return false;
+			return id;
 		}finally {
-			ConnectionFactory.close(preparedStatement, connection);
+			ConnectionFactory.close(resultSet, preparedStatement, connection);
 		}
 		
 	}

@@ -12,6 +12,8 @@ import org.springframework.web.client.RestTemplate;
 import br.fai.reggistre.client.service.CategoryService;
 import br.fai.reggistre.model.entities.Categoria;
 
+
+
 @Service
 public class CategoryServiceImpl implements CategoryService {
 
@@ -41,9 +43,27 @@ public class CategoryServiceImpl implements CategoryService {
 	}
 
 	@Override
-	public boolean create(Categoria entity) {
-		// TODO Auto-generated method stub
-		return false;
+	public Long create(Categoria entity) {
+		Long id = Long.valueOf(0);
+
+		String endPoint = "http://localhost:8082/api/v1/category/create";
+
+		RestTemplate restTemplate = new RestTemplate();
+
+		try {
+			HttpEntity<Categoria> requestEntity = new HttpEntity<Categoria>(entity);
+			ResponseEntity<String> requestResponse = restTemplate.exchange(endPoint, HttpMethod.POST,
+					requestEntity, String.class);
+
+			String response = requestResponse.getBody();
+			id = Long.parseLong(response);
+
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+		}
+
+		return id;
+		
 	}
 
 	@Override
@@ -70,14 +90,49 @@ public class CategoryServiceImpl implements CategoryService {
 
 	@Override
 	public boolean update(Categoria entity) {
-		// TODO Auto-generated method stub
-		return false;
+		boolean response = false;
+		
+		String endPoint = "http://localhost:8082/api/v1/category/update";
+
+		RestTemplate restTemplate = new RestTemplate();
+
+		try {
+			HttpEntity<Categoria> requestEntity = new HttpEntity<Categoria>(entity);
+			ResponseEntity<Boolean> requestResponse = restTemplate.exchange(endPoint, HttpMethod.PUT,
+					requestEntity, Boolean.class);
+
+			 response = requestResponse.getBody();
+			
+
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+		}
+		
+		return response;
 	}
 
 	@Override
 	public boolean deleteById(Long id) {
-		// TODO Auto-generated method stub
-		return false;
+		
+		boolean response = false;
+
+		String endPoint = "http://localhost:8082/api/v1/category/delete/" + id;
+
+		RestTemplate restTemplate = new RestTemplate();
+
+		try {
+			HttpEntity<String> requestEntity = new HttpEntity<String>("");
+			ResponseEntity<Boolean> resquestResponse = restTemplate.exchange(endPoint, HttpMethod.DELETE,
+					requestEntity, Boolean.class);
+
+			response = resquestResponse.getBody();
+
+		} catch (Exception e) {
+			System.out.println("user service impl delete by id");
+			System.out.println(e.getMessage());
+		}
+
+		return response;
 	}
 
 }

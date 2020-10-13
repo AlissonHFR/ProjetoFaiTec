@@ -8,7 +8,7 @@ public interface CategoryService {
 
 	List<Categoria> readAll();
 	
-	boolean create(Categoria entity);
+	Long create(Categoria entity);
 		
 	Categoria readById(Long id);
 	

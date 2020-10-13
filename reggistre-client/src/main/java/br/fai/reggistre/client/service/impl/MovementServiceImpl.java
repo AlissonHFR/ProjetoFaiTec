@@ -12,6 +12,7 @@ import org.springframework.web.client.RestTemplate;
 
 import br.fai.reggistre.client.service.MovementService;
 import br.fai.reggistre.model.entities.Movimentacao;
+import br.fai.reggistre.model.entities.PessoaFisica;
 
 @Service
 public class MovementServiceImpl implements MovementService {
@@ -41,9 +42,27 @@ public class MovementServiceImpl implements MovementService {
 	}
 
 	@Override
-	public boolean create(Movimentacao entity) {
-		// TODO Auto-generated method stub
-		return false;
+	public Long create(Movimentacao entity) {
+
+		Long id = Long.valueOf(0);
+
+		String endPoint = "http://localhost:8082/api/v1/movement/create";
+
+		RestTemplate restTemplate = new RestTemplate();
+
+		try {
+			HttpEntity<Movimentacao> requestEntity = new HttpEntity<Movimentacao>(entity);
+			ResponseEntity<String> requestResponse = restTemplate.exchange(endPoint, HttpMethod.POST,
+					requestEntity, String.class);
+
+			String response = requestResponse.getBody();
+			id = Long.parseLong(response);
+
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+		}
+
+		return id;
 	}
 
 	@Override
@@ -53,13 +72,12 @@ public class MovementServiceImpl implements MovementService {
 		String endPoint = "http://localhost:8082/api/v1/movement/read-by-id/" + id;
 
 		RestTemplate restTemplate = new RestTemplate();
-		
+
 		try {
 			HttpEntity<String> requestEntity = new HttpEntity<>("");
 			ResponseEntity<Movimentacao> requestResponse = restTemplate.exchange(endPoint, HttpMethod.GET,
 					requestEntity, Movimentacao.class);
 
-			
 			response = requestResponse.getBody();
 
 		} catch (Exception e) {
@@ -71,14 +89,49 @@ public class MovementServiceImpl implements MovementService {
 
 	@Override
 	public boolean update(Movimentacao entity) {
-		// TODO Auto-generated method stub
-		return false;
+		boolean response = false;
+		
+		String endPoint = "http://localhost:8082/api/v1/movement/update";
+
+		RestTemplate restTemplate = new RestTemplate();
+
+		try {
+			HttpEntity<Movimentacao> requestEntity = new HttpEntity<Movimentacao>(entity);
+			ResponseEntity<Boolean> requestResponse = restTemplate.exchange(endPoint, HttpMethod.PUT,
+					requestEntity, Boolean.class);
+
+			 response = requestResponse.getBody();
+			
+
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+		}
+		
+		return response;
 	}
 
 	@Override
 	public boolean deleteById(Long id) {
-		// TODO Auto-generated method stub
-		return false;
+		
+		boolean response = false;
+
+		String endPoint = "http://localhost:8082/api/v1/movement/delete/" + id;
+
+		RestTemplate restTemplate = new RestTemplate();
+
+		try {
+			HttpEntity<String> requestEntity = new HttpEntity<String>("");
+			ResponseEntity<Boolean> resquestResponse = restTemplate.exchange(endPoint, HttpMethod.DELETE,
+					requestEntity, Boolean.class);
+
+			response = resquestResponse.getBody();
+
+		} catch (Exception e) {
+			System.out.println("user service impl delete by id");
+			System.out.println(e.getMessage());
+		}
+
+		return response;
 	}
 
 }

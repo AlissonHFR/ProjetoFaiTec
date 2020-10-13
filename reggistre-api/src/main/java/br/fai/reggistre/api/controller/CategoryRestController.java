@@ -62,11 +62,11 @@ public class CategoryRestController {
 	}
 	
 	@PostMapping("/create")
-	public ResponseEntity<Boolean> create(@RequestBody Categoria entity){
+	public ResponseEntity<Long> create(@RequestBody Categoria entity){
 		
-		boolean response = categoryService.create(entity);
+		Long id = categoryService.create(entity);
 		
-		return ResponseEntity.ok(response);
+		return ResponseEntity.ok(id);
 		
 	}
 	

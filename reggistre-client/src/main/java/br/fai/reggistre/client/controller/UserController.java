@@ -32,7 +32,7 @@ public class UserController {
 		// PessoaFisica pFisica = userService.readById(id);
 		ModelAndView mv = null;
 
-		mv = new ModelAndView("user/detail");
+		mv = new ModelAndView("/user/detail");
 		mv.addObject("usuarioLogado", session.getAttribute("usuarioLogado"));
 
 		return mv;
@@ -76,9 +76,10 @@ public class UserController {
 		}
 
 		pFisica.setId(id);
-		model.addAttribute("pFisica", pFisica);
+		model.addAttribute("usuarioLogado", pFisica);
+		mv = new ModelAndView("account/login");
 
-		return getDetailPage(pFisica.getId(), model, session);
+		return mv;
 	}
 
 	@PostMapping("/update")
