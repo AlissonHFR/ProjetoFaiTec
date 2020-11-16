@@ -2,39 +2,303 @@
 <html layout:decorate="~{layout}">
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>Painel principal - REGGI$TER</title>
 </head>
 <body>
 
 	<div layout:fragment="body">
-		<div th:each="movimentacao : ${movimentacao}" th:if="${usuarioLogado.id == movimentacao.pessoaFisicaId and movimentacao.categoria.tipo == 'receita'}"></div>
-		<div th:each="movimentacao : ${movimentacao}" th:if="${usuarioLogado.id == movimentacao.pessoaFisicaId and movimentacao.categoria.tipo == 'despesa'}"></div>
-		<canvas id="myChart"></canvas>
+		<div class="row justify-content-md-center" style="background-color: grey;">
+
+			<h4 class="card-title" id="saldoAtual">Saldo</h4>
+		</div>
+		<br>
+		<div class="row justify-content-md-center">
+			<div class="col-md-8">
+				<div class="card">
+					<div class="card-header ">
+						<h4 class="card-title">Gráfico das Despesas e Receitas</h4>
+						<p class="card-category">Despesas e Receitas em R$</p>
+					</div>
+					<div class="card-body ">
+						<canvas id="GraficoDePizza"></canvas>
+					</div>
+					<div class="card-footer ">
+						<div class="legend">Todas as receitas e despesas</div>
+						<hr>
+					</div>
+				</div>
+			</div>
+		</div>
+		<br>
+		<div class="row">
+			<div class="col-md-6">
+				<div class="card ">
+					<div class="card-header ">
+						<h4 class="card-title">Gráfico de Receitas por Categoria</h4>
+						<p class="card-category">Receitas em R$</p>
+					</div>
+					<div class="card-body ">
+						<canvas id="GraficoDeBarraReceitas"></canvas>
+					</div>
+					<div class="card-footer ">
+						<div class="legend">Todas as receitas</div>
+						<hr>
+					</div>
+				</div>
+			</div>
+
+			<div class="col-md-6">
+				<div class="card ">
+					<div class="card-header ">
+						<h4 class="card-title">Gráfico de Despesas por Categoria</h4>
+						<p class="card-category">Despesas em R$</p>
+					</div>
+					<div class="card-body ">
+						<canvas id="GraficoDeBarraDespesas"></canvas>
+					</div>
+					<div class="card-footer ">
+						<div class="legend">Todas as despesa</div>
+						<hr>
+					</div>
+				</div>
+			</div>
+		</div>
+<br>
+
+
+
+
+		<div class="row">
+			<div class="col-md-6">
+				<div class="card ">
+					<div class="card-header ">
+						<h4 class="card-title">Grafico de Receitas de "Outubro"</h4>
+						<p class="card-category">Receitas em R$ "Outubro"</p>
+					</div>
+					<div class="card-body ">
+						<canvas id="GraficoDeBarraReceitasDoMesAtual"></canvas>
+					</div>
+					<div class="card-footer ">
+						<div class="legend">Todas as receitas de "Outubro"</div>
+						<hr>
+					</div>
+				</div>
+			</div>
+
+			<div class="col-md-6">
+				<div class="card ">
+					<div class="card-header ">
+						<h4 class="card-title">Grafico de Despesas de "Outubro"</h4>
+						<p class="card-category">Despesas em R$ "Outubro"</p>
+					</div>
+					<div class="card-body ">
+						<canvas id="GraficoDeBarraDespesasDoMesAtual"></canvas>
+					</div>
+					<div class="card-footer ">
+						<div class="legend">Todas as despesas "Outubro"</div>
+						<hr>
+					</div>
+				</div>
+			</div>
+		</div>
+
+
+
 		<script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
 
-		<script>
-			var ctx = document.getElementById('myChart').getContext('2d');
+		<script th:inline="javascript">
+
+		 
+		
+
+  var usuarioId = [[${usuarioLogado.id}]];
+  var despesas = [[${despesasTotalPessoa}]];
+  var receitas = [[${receitasTotalPessoa}]];
+var valorTotalDasMesmasDespesasList = [[${valorTotalDasMesmasDespesasList}]];
+var valorTotalDasMesmasReceitasList = [[${valorTotalDasMesmasReceitasList}]];
+  
+
+var valoresDeCadaMovimentacaoReceitaList = [[${valoresDeCadaMovimentacaoReceitaList}]];
+var dataDeCadaMovimentacaoReceitaList = [[${dataDeCadaMovimentacaoReceitaList}]];
+
+
+var valoresDeCadaMovimentacaoDespesaList = [[${valoresDeCadaMovimentacaoDespesaList}]];
+var dataDeCadaMovimentacaoDespesaList = [[${dataDeCadaMovimentacaoDespesaList}]];
+  
+  var receitasNomeList = [[${nomeReceitasList}]];
+  var DespesasNomeList = [[${nomeDespesasList}]];
+  var CoresCinzaGraficoList =  [[${CoresCinzaGraficoList}]];
+  var CoresVerdeGraficoList =  [[${CoresVerdeGraficoList}]];
+  var saldoAtual =  receitas-despesas;
+  console.log(usuarioId);
+  console.log(despesas);
+  console.log(receitas);
+  console.log(receitasNomeList);
+  console.log(DespesasNomeList);
+  
+  console.log(valorTotalDasMesmasReceitasList);
+  console.log(valorTotalDasMesmasDespesasList);
+  console.log(CoresCinzaGraficoList);
+  console.log(CoresVerdeGraficoList);
+  
+  saldoAtual = parseFloat(saldoAtual.toFixed(2));
+  
+  document.getElementById("saldoAtual").innerHTML = "Seu saldo atual é de: R$ " + (saldoAtual);
+  if(saldoAtual >= 0)
+	  {	  		  
+	  	document.getElementById("saldoAtual").style.color = "rgb(100, 235, 52)";
+	  }
+  else
+	  {
+	    document.getElementById("saldoAtual").style.color = "red";
+	  }
+  
+
+  
+			var ctx = document.getElementById('GraficoDePizza').getContext('2d');
 			var chart = new Chart(ctx, {
 				// The type of chart we want to create
 				type : 'pie',
-
 				// The data for our dataset
 				data : {
-					labels : [ 'red', 'blue' ],
+				labels : [ 'Despesa', 'Receita' ],
 					datasets : [ {
-						label : 'My First dataset',
-						backgroundColor: ['rgb(255, 0, 0)','rgb(0, 0, 255)'],
-						borderColor : ['rgb(255, 0, 0)','rgb(0, 0, 255)'],
-						data : [ 5, 10]
+
+						label : 'Gráfico de Pizza',
+						backgroundColor: ['grey','rgb(100, 235, 52)'],
+						data : [despesas, receitas]
 					} ]
 				},
 
 				// Configuration options go here
-				options : {}
+				options : {
+					
+					showLines: false
+				}
 			});
-		</script>
+		  
+			
+			
+		//grafico de barras--------------------------------------------------------------------------------------------------------------------
 
+			let listaCategoriasReceitas = receitasNomeList;
+			let listaDataReceitas = valorTotalDasMesmasReceitasList;
+			let listaCoresDatasReceitas = CoresVerdeGraficoList
+			var ctx = document.getElementById('GraficoDeBarraReceitas').getContext('2d');
+			var myChart = new Chart(ctx, {
+			    type: 'bar',
+			    data: {
+			        labels: listaCategoriasReceitas,
+			        datasets : [ {
+				        
+						label : 'Gráfico de Receitas',
+						backgroundColor: listaCoresDatasReceitas,						
+						data : listaDataReceitas
+						
+					}]
+			    },
+			    options: {
+			    	
+			        scales: {
+			            yAxes: [{
+			                ticks: {
+			                    beginAtZero: true
+			                }
+			            }]
+			        }
+			    }
+			});
+		  
+			
+			
+			let listaCategoriasDespesas = DespesasNomeList;
+			let listaDataDespesas = valorTotalDasMesmasDespesasList;
+			let listaCoresDatasDespesas = CoresCinzaGraficoList;
+			var ctx = document.getElementById('GraficoDeBarraDespesas').getContext('2d');
+			var myChart = new Chart(ctx, {
+			    type: 'bar',
+			    data: {
+			        labels: listaCategoriasDespesas,
+			        datasets : [ {
+				        
+						label : 'Gráfico de Despesas',
+						backgroundColor: listaCoresDatasDespesas,
+						borderColor : ['rgb(138, 117, 117)','rgb(100, 235, 52)'],
+						data : listaDataDespesas
+					} ]
+			    },
+			    options: {			    	
+			        scales: {
+			            yAxes: [{
+			                ticks: {
+			                    beginAtZero: true
+			                }
+			            }]
+			        }
+			    }
+			});
+			
+
+		/*-----------------------------------------------*/
 		
+		
+		
+		
+
+			var ctx = document.getElementById('GraficoDeBarraReceitasDoMesAtual').getContext('2d');
+			var myChart = new Chart(ctx, {
+			    type: 'bar',
+			    data: {
+			        labels: dataDeCadaMovimentacaoReceitaList,
+			        datasets : [ {
+				        
+						label : 'Gráfico de Receitas de Outubro',
+						backgroundColor: listaCoresDatasReceitas,						
+						data : valoresDeCadaMovimentacaoReceitaList
+						
+					}]
+			    },
+			    options: {
+			    	
+			        scales: {
+			            yAxes: [{
+			                ticks: {
+			                    beginAtZero: true
+			                }
+			            }]
+			        }
+			    }
+			});
+		  
+			
+			
+			var ctx = document.getElementById('GraficoDeBarraDespesasDoMesAtual').getContext('2d');
+			var myChart = new Chart(ctx, {
+			    type: 'bar',
+			    data: {
+			        labels: dataDeCadaMovimentacaoDespesaList,
+			        datasets : [ {
+				        
+						label : 'Gráfico de Despesas de Outubro',
+						backgroundColor: listaCoresDatasDespesas,						
+						data : valoresDeCadaMovimentacaoDespesaList
+						
+					}]
+			    },
+			    options: {
+			    	
+			        scales: {
+			            yAxes: [{
+			                ticks: {
+			                    beginAtZero: true
+			                }
+			            }]
+			        }
+			    }
+			});
+		  
+			
+		</script>
 
 	</div>
 

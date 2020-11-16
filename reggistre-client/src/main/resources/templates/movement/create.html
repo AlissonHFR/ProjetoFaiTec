@@ -10,7 +10,7 @@
 		<div class="content">
 			<div class="container-fluid">
 				<div class="row">
-					<div class="col-md-8">
+					<div class="col-md-12">
 						<div class="card">
 							<div class="card-header">
 								<h4 class="card-title">Adicionar Movimentações</h4>
@@ -19,67 +19,66 @@
 								<form th:action="@{/movement/create}" method="POST"
 									th:object="${movimentacao}">
 									<div class="row" >
-										<div class="col-md-5 pr-1">
+										<div class="col-md-6 pr-1">
 											<div class="form-group">
-												<label>Nome</label> <input type="text" class="form-control"
+												<label>Nome</label> <input required  type="text" class="form-control"
 													placeholder="Nome" name="nome">
 											</div>
 										</div>
-										<div class="col-md-4 px-1">
+										<div class="col-md-6 px-1">
 											<div class="form-group">
 												<label>Categoria</label>
-												<!--                                                     <input type="text" class="form-control" placeholder="selecione" name="categoria"> -->
-												<!-- <select th:each="categorias : ${categoria}">
-   																 <option th:field="${categorias.nome}">Cat1</option>
-   																 
-  															</select> -->
-												<select name="categoriaId">
-													<option th:each="categoria : ${categoria}" 
-															th:value="${categorias.id}"
-															th:text="{${categorias.nome}"
-															th:selectd="${categoria.id == movimentacao.categoriaId}">Wireframe</option>
+												<br>
+												<select class="col-md-4 px-1" th:field="${movimentacao.categoriaId}">
+													<option th:each="categoria : ${categorias}" 
+															th:value="${categoria.id}"
+															th:text="${categoria.nome}"
+															>Wireframe</option>
 												</select>
+												<a href="/category/register">Criar nova categoria</a>
 											</div>
 										</div>
-										<div class="col-md-3 pl-1">
+										<div class="col-md-2 pr-1">
 											<div class="form-group">
-												<label for="exampleInputEmail1">Data</label> <input
+												<label for="exampleInputEmail1">Data</label> <input required 
 													type="date" class="form-control" placeholder="" name="data">
 											</div>
 										</div>
-									</div>
-									<div class="row">
-										<div class="col-md-12 pr-1">
+										
+										<div class="col-md-3">
 											<div class="form-group">
-												<label>Descrição</label> <input type="text"
-													class="form-control" placeholder="Descrição"
-													name="descricao">
-											</div>
-										</div>
-										<div class="col-md-6 pl-1">
-											<div class="form-group">
-												<label hidden>PESSOA FISICA</label> <input type="text"
-													class="form-control" placeholder="Last Name"
-													name="pessoaFisicaId" th:value="${usuarioLogado.id}">
-											</div>
-										</div>
-									</div>
-									<div class="row">
-										<div class="col-md-4">
-											<div class="form-group">
-												<label>Tipo Movimentação</label> <input type="text"
+												<label>Tipo Movimentação</label> <input required type="text"
 													class="form-control" placeholder="Tipo Movimentação"
 													name="tipoMovimentacao">
 											</div>
 										</div>
-
-										<div class="col-md-4 pr-1">
+										
+										<div class="col-md-3 pr-1">
 											<div class="form-group">
-												<label>valor</label> <input type="text" class="form-control"
-													placeholder="Valor" name="valor">
+												<label>valor</label> 
+												<input required class="form-control" type="number" min="0.00" max="999999.00" step="0.01" placeholder="Valor" name="valor"/>
+											
 											</div>
 										</div>
+										
 									</div>
+									<div class="row">
+										<div class="col-md-4 pr-1">
+											<div class="form-group">
+												<label>Descrição</label> 
+												<textarea rows="4" cols="2" class="form-control" placeholder="Descrição da movimentação"  name="descricao"></textarea>
+												<!-- <input required type="text"
+													class="form-control" placeholder="Descrição"
+													name="descricao"> -->
+											</div>
+										</div>
+						
+									 <input hidden type="text" class="form-control" placeholder="Last Name" name="pessoaFisicaId" th:value="${usuarioLogado.id}">
+							
+										</div>
+
+										
+									
 
 									<button type="submit" class="btn btn-info btn-fill pull-right"
 										th:href="@{/movement/list}">Salvar</button>

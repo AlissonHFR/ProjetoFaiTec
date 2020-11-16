@@ -12,7 +12,9 @@ public class ConnectionFactory {
 
 	private static final String url = "jdbc:postgresql://localhost:5432/reggistre";
 	private static final String user = "postgres";
-	private static final String password = "postgres";
+	private static final String password = "123";
+//	private static final String password = "1234"; //Gabi
+	//private static final String password = "postgres"; //Alisson
 
 	public static Connection getConnection() {
 

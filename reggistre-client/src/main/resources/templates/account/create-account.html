@@ -16,33 +16,33 @@
 
     <div class="main">
 
-        <section class="signup">
-            <!-- <img src="images/signup-bg.jpg" alt=""> -->
+        <section class="signup">            
             <div class="container">
                 <div class="signup-content ">  
                     <form th:action="@{/user/create}" method="POST" th:object="${pFisica}" class="signup-form">
                         <h2 class="form-title">Criar Conta</h2>
                         <div class="form-group">
-                            <input type="text" class="form-input" placeholder="Seu nome completo" name="nomeCompleto"/>
+                            <input required type="text" class="form-input" placeholder="Seu nome completo" name="nomeCompleto"/>
                         </div>
                         <div class="form-group">
-                            <input type="text" class="form-input"  placeholder="Seu usuário" name="nomeUsuario"/>
+                            <input required type="text" class="form-input" id="usuario" placeholder="Seu usuário"  oninput="verifica()"  name="nomeUsuario"/>                        
+                        </div>
+                        <h1 hidden style="color: red;" id="usuarioJaExiste">Atenção, usuario já existe</h1>                        
+                        <div class="form-group">
+                            <input required  type="email" class="form-input"  placeholder="Seu email" name="email"/>
                         </div>
                         <div class="form-group">
-                            <input type="email" class="form-input"  placeholder="Seu email" name="email"/>
+                            <input required type="email" class="form-input"  placeholder="Seu email alternativo" name="emailAlternativo"/>
                         </div>
                         <div class="form-group">
-                            <input type="email" class="form-input"  placeholder="Seu email alternativo" name="emailAlternativo"/>
-                        </div>
-                        <div class="form-group">
-                            <input type="text" class="form-input"  placeholder="Senha" name="senha"/>
+                            <input required type="text" class="form-input"  placeholder="Senha" name="senha"/>
                             <span toggle="#password" class="zmdi zmdi-eye field-icon toggle-password"></span>
                         </div>
                         <div class="form-group">
                             <input type="password" class="form-input"  placeholder="Repita sua senha" />
                         </div>
                         <div class="form-group">
-                            <input type="checkbox" name="agree-term" id="agree-term" class="agree-term" />
+                            <input required type="checkbox" name="agree-term" id="agree-term" class="agree-term" />
                             <label for="agree-term" class="label-agree-term"><span><span></span></span>Eu concordo com todas as declarações nos  <a href="#" class="term-service">Termos de serviço</a></label>
                         </div>
                         <div class="form-group">
@@ -61,5 +61,30 @@
     <!-- JS -->
     <script src="/resources/create/vendor/jquery/jquery.min.js"></script>
     <script src="/resources/create/js/main.js"></script>
+    
+    <html>
+   
+   <script th:inline="javascript">
+       
+   
+   var chaves =  [[${pfList}]];
+   console.log(chaves)
+       function verifica() {
+   // 	   var chaves = ['Garieli', 'Alisson', 'Vinicius'];
+   
+    	   var item = document.getElementById('usuario').value;
+    	   
+    	   if (chaves.indexOf(item) > -1) {
+    		   
+    		   document.getElementById('usuarioJaExiste').style.display = "inline";
+    		   document.getElementById("submit").disabled = true;
+    	   } else {
+    		   document.getElementById('usuarioJaExiste').style.display = "none";
+    		   document.getElementById("submit").disabled = false;    		   
+    	   }
+    	 }
+       
+   </script>
+</html>
 </body><!-- This templates was made by Colorlib (https://colorlib.com) -->
 </html>

@@ -52,14 +52,14 @@
 					<div class="wrap-input100 validate-input m-b-26"
 						data-validate="Username is required">
 						<span class="label-input100">Usuário</span> <input
-							class="input100" type="text" name="username"
+							 class="input100" type="text" name="username"
 							placeholder="Digite o usuário"> <span
 							class="focus-input100"></span>
 					</div>
 
 					<div class="wrap-input100 validate-input m-b-18"
 						data-validate="Password is required">
-						<span class="label-input100">Senha</span> <input class="input100"
+						<span class="label-input100">Senha</span> <input  class="input100"
 							type="password" name="pass" placeholder="Digite a senha">
 						<span class="focus-input100"></span>
 					</div>
@@ -73,12 +73,19 @@
 
 						<div>
 							<a href="#" class="txt1"> Esqueceu a senha? </a>
+
 						</div>
 					</div>
 					<div>
-		
-						<span style="color: red;" id="UsuarioSenhaIncorreto" th:if="${ErroLogin == 1}">Usuário
-							ou senha incorreto! Tente novamente</span>
+						<span> Não tem conta? </span><a href="\account\register"
+							class="txt1">Cadastre-se!</a><br>
+						<br>
+					</div>
+					<div>
+
+						<span style="color: red;" id="UsuarioSenhaIncorreto"
+							th:if="${ErroLogin == 1}">Usuário ou senha incorreto!
+							Tente novamente</span>
 					</div>
 					<div class="container-login100-form-btn">
 						<button type="submit" class="login100-form-btn">Entrar</button>
@@ -106,19 +113,26 @@
 	<!--===============================================================================================-->
 	<script src="/resources/login/js/main.js"></script>
 	<script>
-
-		if (window.performance) {
-			console.info("window.performance works fine on this browser");
-		}
-		console.info(performance.navigation.type);
-		if (performance.navigation.type == performance.navigation.TYPE_RELOAD) {
+		if (performance.navigation.type === performance.navigation.TYPE_RELOAD) {
 			console.info("This page is reloaded");
+
+		} else {
+			console.info("This page is not reloaded");
+
+		}
+	</script>
+
+	<script>
+	  var erroLogin = [[${ErroLogin}]];
+
+		if (performance.navigation.type == performance.navigation.TYPE_RELOAD) {
+			console.info("Essa pagina foi RECARREGADA");
 			$(document).ready(function() {
 				$('#UsuarioSenhaIncorreto').fadeOut(1);
 			});
 
 		} else {
-			console.info("This page is not reloaded");
+			console.info("Essa pagina não foi RECARREGADA");
 
 		}
 	</script>

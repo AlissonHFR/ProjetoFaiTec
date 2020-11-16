@@ -27,8 +27,12 @@ public class CategoryController {
 	private CategoryService categoriaService;
 
 	@GetMapping("/detail/{id}")
-	public String getDetailPage(@PathVariable("id") Long id, Model model) {
+	public String getDetailPage(@PathVariable("id") Long id, Model model, HttpSession session) {
 
+		if (session.getAttribute("usuarioLogado") == null)
+		{
+			return "redirect:/user/login";			
+		}
 		Categoria categoria = categoriaService.readById(id);
 
 		model.addAttribute("categoria", categoria);
@@ -37,8 +41,12 @@ public class CategoryController {
 	}
 
 	@GetMapping("/edit/{id}")
-	public String getEditPage(@PathVariable("id") Long id, Model model) {
-
+	public String getEditPage(@PathVariable("id") Long id, Model model, HttpSession session) {
+		
+		if (session.getAttribute("usuarioLogado") == null)
+		{
+			return "redirect:/user/login";			
+		}
 		Categoria categoria = categoriaService.readById(id);
 
 		model.addAttribute("categoria", categoria);
@@ -50,7 +58,11 @@ public class CategoryController {
 	public ModelAndView getListPage(Model model,HttpSession session) {
 		ModelAndView mv = null;
 		List<Categoria> categoriaList = categoriaService.readAll();
-		
+		if (session.getAttribute("usuarioLogado") == null)
+		{
+			mv = new ModelAndView("redirect:/user/login");	
+			return mv;
+		}
 		mv = new ModelAndView("category/list");
 		mv.addObject("usuarioLogado", session.getAttribute("usuarioLogado"));
 
@@ -69,15 +81,28 @@ public class CategoryController {
 	
 	@PostMapping("/update")
 	public String update(Categoria categoria,Model model,HttpSession session) {
+
+		if (session.getAttribute("usuarioLogado") == null)
+		{
+			return "redirect:/user/login";			
+		}
+
 		categoriaService.update(categoria);
-		
-		return getDetailPage(categoria.getId(), model);
+		return getDetailPage(categoria.getId(), model, session);
 		
 	}
 	@PostMapping("/create")
 	public ModelAndView create(Categoria categoria,Model model,HttpSession session) {
-		Long id = categoriaService.create(categoria);
 		ModelAndView mv = null;
+		
+		if (session.getAttribute("usuarioLogado") == null)
+		{
+			mv = new ModelAndView("redirect:/user/login");	
+			return mv;
+		}
+			
+		Long id = categoriaService.create(categoria);
+		
 		
 		if(id == 0) {
 			mv = new ModelAndView("redirect:/category/resgiter?serverError");
@@ -98,7 +123,11 @@ public class CategoryController {
 	@GetMapping("/register")
 	public ModelAndView getCreateMovimentcao(Categoria categoria,HttpSession session) {
 		ModelAndView mv = null;
-		
+		if (session.getAttribute("usuarioLogado") == null)
+		{
+			mv = new ModelAndView("redirect:/user/login");	
+			return mv;
+		}
 		mv = new ModelAndView("category/create");
 		mv.addObject("usuarioLogado", session.getAttribute("usuarioLogado"));
 		
@@ -108,6 +137,12 @@ public class CategoryController {
 	@GetMapping("/delete/{id}")
 	public ModelAndView getDeletePage(@PathVariable("id") Long id, Model model,HttpSession session) {
 		ModelAndView mv = null;
+		
+		if (session.getAttribute("usuarioLogado") == null)
+		{
+			mv = new ModelAndView("redirect:/user/login");	
+			return mv;
+		}
 		categoriaService.deleteById(id);
 
 		mv = new ModelAndView("redirect:/category/list");

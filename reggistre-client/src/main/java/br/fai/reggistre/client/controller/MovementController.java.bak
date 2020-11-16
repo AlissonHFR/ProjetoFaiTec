@@ -33,15 +33,9 @@ public class MovementController {
 
 	@GetMapping("/detail/{id}")
 	public ModelAndView getDetailPage(@PathVariable("id") Long id, Model model,HttpSession session) {
-		
-		
 		ModelAndView mv = null;
-		if (session.getAttribute("usuarioLogado") == null)
-		{
-			mv = new ModelAndView("redirect:/user/login");	
-			return mv;
-		}
 		Movimentacao movimentacao = movementService.readById(id);
+
 		mv = new ModelAndView("movement/detail");
 		mv.addObject("usuarioLogado", session.getAttribute("usuarioLogado"));
 		
@@ -52,15 +46,9 @@ public class MovementController {
 	@GetMapping("/edit/{id}")
 	public ModelAndView getEditPage(@PathVariable("id") Long id, Model model,HttpSession session) {
 		ModelAndView mv = null;
-		if (session.getAttribute("usuarioLogado") == null)
-		{
-			mv = new ModelAndView("redirect:/user/login");	
-			return mv;
-		}
 		Movimentacao movimentacao = movementService.readById(id);
-		Categoria categoria = categoriaService.readById(movimentacao.getCategoriaId());
+
 		model.addAttribute("movimentacao", movimentacao);
-		model.addAttribute("categoria", categoria);
 		
 		mv = new ModelAndView("/movement/edit");
 		mv.addObject("usuarioLogado", session.getAttribute("usuarioLogado"));
@@ -70,13 +58,7 @@ public class MovementController {
 
 	@GetMapping("/list")
 	public ModelAndView getListPage(Model model,HttpSession session) {
-		
 		ModelAndView mv = null;
-		if (session.getAttribute("usuarioLogado") == null)
-		{
-			mv = new ModelAndView("redirect:/user/login");	
-			return mv;
-		}
 		List<Movimentacao> movimentacaoList = movementService.readAll();
 		
 		mv = new ModelAndView("movement/list");
@@ -99,13 +81,6 @@ public class MovementController {
 	public ModelAndView update(Movimentacao movimentacao, Model model,HttpSession session) {
 		ModelAndView mv = null;
 		
-		
-		if (session.getAttribute("usuarioLogado") == null)
-		{
-			mv = new ModelAndView("redirect:/user/login");	
-			return mv;
-		}
-		
 		Movimentacao mAntesUpdate = movementService.readById(movimentacao.getId());
 		
 		movementService.update(movimentacao);
@@ -121,13 +96,12 @@ public class MovementController {
 	public ModelAndView create(Movimentacao movimentacao,Categoria categoria, Model model, HttpSession session) {
 		
 		ModelAndView mv = null;
-		if (session.getAttribute("usuarioLogado") == null)
-		{
-			mv = new ModelAndView("redirect:/user/login");	
+		Long id = movementService.create(movimentacao);
+				
+		if(id == 0) {
+			mv = new ModelAndView("redirect:/movement/register?erroServidor");
 			return mv;
 		}
-		Long id = movementService.create(movimentacao);
-
 		
 		movimentacao.setId(id);
 		model.addAttribute("movimentacao", movimentacao);
@@ -137,15 +111,33 @@ public class MovementController {
 		return mv;
 	}
 	
-		
+	/*
+	 * @GetMapping("/register") public ModelAndView
+	 * getCreateMovimentacao(Movimentacao movimentacao,Categoria categoria,Model
+	 * model,HttpSession session) { ModelAndView mv = null;
+	 * 
+	 * List<Categoria> categoriaList = categoriaService.readAll();
+	 * 
+	 * if (categoriaList != null && categoriaList.size() != 0) {
+	 * model.addAttribute("categoria", categoriaList);
+	 * System.out.println("foram encontradas" + categoriaList.size() +
+	 * "categorias");
+	 * 
+	 * } else { model.addAttribute("categoria", new ArrayList<Categoria>());
+	 * System.out.println("Nenhuma categoria foi encontrada"); }
+	 * 
+	 * 
+	 * 
+	 * mv = new ModelAndView("movement/create"); mv.addObject("usuarioLogado",
+	 * session.getAttribute("usuarioLogado")); mv.addObject("categoria",
+	 * categoria.getId());
+	 * 
+	 * return mv; }
+	 */
+	
 	@GetMapping("/register")
 	public String getCreateMovimentacao(Movimentacao movimentacao,Categoria categoria,Model model,HttpSession session) {
 	    
-		if (session.getAttribute("usuarioLogado") == null)
-		{
-			
-			return "redirect:/user/login";
-		}
 	    
 	    List<Categoria> categoriaList = categoriaService.readAll();
 	    
@@ -170,11 +162,6 @@ public class MovementController {
 	@GetMapping("/delete/{id}")
 	public ModelAndView getDeletePage(@PathVariable("id") Long id, Model model,HttpSession session) {
 		ModelAndView mv = null;
-		if (session.getAttribute("usuarioLogado") == null)
-		{
-			mv = new ModelAndView("redirect:/user/login");	
-			return mv;
-		}
 		movementService.deleteById(id);
 
 		mv = new ModelAndView("redirect:/movement/list");

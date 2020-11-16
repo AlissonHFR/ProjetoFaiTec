@@ -153,7 +153,7 @@ public class UserDaoImpl implements UserDao {
 		Connection connection = null;
 		PreparedStatement preparedStatement = null;
 
-		String sql = "UPDATE pessoa_fisica SET nome_completo = ?, email = ?, email_alternativo = ? ";
+		String sql = "UPDATE pessoa_fisica SET nome_completo = ?, email = ?, email_alternativo = ?, senha = ? ";
 		sql += " WHERE id = ? ; ";
 
 		try {
@@ -164,7 +164,8 @@ public class UserDaoImpl implements UserDao {
 			preparedStatement.setString(1, entity.getNomeCompleto());
 			preparedStatement.setString(2, entity.getEmail());
 			preparedStatement.setString(3, entity.getEmailAlternativo());
-			preparedStatement.setLong(4, entity.getId());
+			preparedStatement.setString(4, entity.getSenha());
+			preparedStatement.setLong(5, entity.getId());
 
 			preparedStatement.execute();
 			connection.commit();

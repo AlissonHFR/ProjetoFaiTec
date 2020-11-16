@@ -1,8 +1,18 @@
 package br.fai.reggistre.client.service.impl;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Properties;
+
+import javax.mail.Address;
+import javax.mail.Message;
+import javax.mail.MessagingException;
+import javax.mail.PasswordAuthentication;
+import javax.mail.Authenticator;
+import javax.mail.Session;
+import javax.mail.Transport;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeMessage;
 
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
@@ -12,7 +22,6 @@ import org.springframework.web.client.RestTemplate;
 
 import br.fai.reggistre.client.service.MovementService;
 import br.fai.reggistre.model.entities.Movimentacao;
-import br.fai.reggistre.model.entities.PessoaFisica;
 
 @Service
 public class MovementServiceImpl implements MovementService {
@@ -133,5 +142,124 @@ public class MovementServiceImpl implements MovementService {
 
 		return response;
 	}
+
+	@Override
+	public void notificarViaEmail(String email, String texto)
+	{
+      
+      Properties props = new Properties();
+      /**
+       * Parâmetros de conexão com servidor Gmail
+       */
+      
+      
+//      /**/
+//      props.put ("mail.smtp.host", "smtp.gmail.com");
+//      props.put("mail.smtp.auth", "true");
+//      props.put("mail.debug", "true");
+//      props.put("mail.smtp.debug", "true");
+//      props.put("mail.mime.charset", "ISO-8859-1");
+//      props.put("mail.smtp.port", "465");
+//      props.put ("mail.smtp.starttls.enable", "true");
+//      props.put ("mail.smtp.socketFactory.port", "465");
+//      props.put ("mail.smtp.socketFactory.fallback", "false");
+//      props.put ("mail.smtp.socketFactory.class", "javax.net.ssl.SSLSocketFactory");
+//      
+//      /**/
+      props.put("mail.smtp.host", "smtp.gmail.com");
+      props.put("mail.smtp.socketFactory.port", "465");
+      props.put("mail.smtp.socketFactory.class",
+              "javax.net.ssl.SSLSocketFactory");
+      props.put("mail.smtp.auth", "true");
+      props.put("mail.smtp.port", "465");
+      
+
+      Session session = Session.getDefaultInstance(props,
+              new javax.mail.Authenticator() {
+          @Override
+          protected PasswordAuthentication getPasswordAuthentication() {
+              return new PasswordAuthentication("avisos.reggistre@gmail.com", "ReggistreAvisos");
+          }
+      });
+      session.setDebug(true);
+      try {
+          Message message = new MimeMessage(session);
+          
+          
+          /*De quem*/
+          message.setFrom(new InternetAddress("avisos.reggistre@gmail.com"));                                    
+          /*Pra quem*/
+          Address[] toUser = InternetAddress.parse(email);
+          message.setRecipients(Message.RecipientType.TO, toUser);
+          /*Assunto*/
+          //message.setSubject("Notificação de mal uso do SafeWalk");
+          message.setSubject("Email do Reggistre");
+          /*Conteudo do email*/
+          message.setContent(texto,"text/html");
+          /**
+           * 
+           * Método para enviar a mensagem criada
+           */                        
+          Transport.send(message);
+          
+      } catch (MessagingException e) {
+          e.getMessage();
+          throw new RuntimeException(e);
+          
+      }
+
+
+	}
+
+//	@Override
+//    public void notificarViaEmail(String emailReceber, String textoEnviar) throws Exception {
+//        
+//        Properties props = new Properties();
+//        /**
+//         * Parâmetros de conexão com servidor Gmail
+//         */
+//        props.put("mail.smtp.host", "smtp.gmail.com");
+//        props.put("mail.smtp.socketFactory.port", "465");
+//        props.put("mail.smtp.socketFactory.class",
+//                "javax.net.ssl.SSLSocketFactory");
+//        props.put("mail.smtp.auth", "true");
+//        props.put("mail.smtp.port", "465");
+//        
+//
+//        Session session = Session.getDefaultInstance(props,
+//                new javax.mail.Authenticator() {
+//            @Override
+//            protected PasswordAuthentication getPasswordAuthentication() {
+//                return new PasswordAuthentication("recuperar.safewalk@gmail.com", "safewalktcc");
+//            }
+//        });
+//        session.setDebug(true);
+//        try {
+//            Message message = new MimeMessage(session);
+//            
+//            
+//            /*De quem*/
+//            message.setFrom(new InternetAddress("recuperar.safewalk@gmail.com"));                                    
+//            /*Pra quem*/
+//            Address[] toUser = InternetAddress.parse(emailReceber);
+//            message.setRecipients(Message.RecipientType.TO, toUser);
+//            /*Assunto*/
+//            //message.setSubject("Notificação de mal uso do SafeWalk");
+//            message.setSubject("Testando email SafeWalk");
+//            /*Conteudo do email*/
+//            message.setContent(textoEnviar,"text/html");
+//            /**
+//             * 
+//             * Método para enviar a mensagem criada
+//             */                        
+//            Transport.send(message);
+//            
+//        } catch (MessagingException e) {
+//            e.getMessage();
+//            throw new RuntimeException(e);
+//            
+//        }
+//
+//    }
 
 }

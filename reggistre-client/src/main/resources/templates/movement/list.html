@@ -2,7 +2,7 @@
 <html layout:decorate="~{layout}">
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>Movimentações</title>
 </head>
 <body>
 
@@ -48,6 +48,7 @@
 										<th>Tipo</th>
 										<th>Valor</th>
 										<th>Categoria</th>
+										<th>Data</th>
 										<th hidden>Categoria Tipo</th>
 										<!-- <th>City</th> -->
 									</thead>
@@ -56,27 +57,25 @@
 											<td hidden  th:text="${movimentacao.pessoaFisicaId}">1</td>
 											<td th:text="${movimentacao.nome}">1</td>
 											<!-- <td th:text="${movimentacao.descricao}">1</td> -->
-											<td th:text="${movimentacao.tipoMovimentacao}">$36,738</td>
-											<td th:text="${movimentacao.valor}">Niger</td>
-											<td th:text="${movimentacao.categoria.nome}">Oud-Turnhout</td>
+											<td th:text="${movimentacao.tipoMovimentacao}"></td>
+											<td th:text="${movimentacao.valor}"></td>
+											<td th:text="${movimentacao.categoria.nome}"></td>
+											<td th:text="${movimentacao.data}"></td>
 											<td hidden  th:text="${movimentacao.categoria.tipo}">Oud-Turnhout</td>
 											<td>
 											<div class="col-4">
-<!-- 												<button class="btn btn-primary"> -->
-<!-- 													<i class="fas fa-address-card"></i> -->
-<!-- 												</button> -->
+							
 
-												<a class="btn btn-primary" 
-												role="button"
-												>
-												<i class="fas fa-file-alt"></i>
+												<a  class="btn btn-primary" th:href="@{/movement/detail/{id} (id=${movimentacao.id})}"
+												role="button">
+												<i  class="fas fa-file-alt"></i>
 												</a>
 												
 											</div>
 											<div class="col-4">
-												<button class="btn btn-warning">
+												<a class="btn btn-warning" th:href="@{/movement/edit/{id} (id=${movimentacao.id})}">
 													<i class="fas fa-pencil-alt"></i>
-												</button>
+												</a>
 											</div>
 											
 												<div class="row">
@@ -113,6 +112,7 @@
 										<th>Tipo</th>
 										<th>Valor</th>
 										<th>Categoria</th>
+										<th>Data</th>
 										<th hidden >Categoria Tipo</th>
 										<!-- <th>City</th> -->
 									</thead>
@@ -124,14 +124,12 @@
 											<td th:text="${movimentacao.tipoMovimentacao}">$36,738</td>
 											<td th:text="${movimentacao.valor}">Niger</td>
 											<td th:text="${movimentacao.categoria.nome}">Oud-Turnhout</td>
+											<td th:text="${movimentacao.data}"></td>
 											<td  hidden th:text="${movimentacao.categoria.tipo}">Oud-Turnhout</td>
 											<td>
 											<div class="col-4">
-<!-- 												<button class="btn btn-primary"> -->
-<!-- 													<i class="fas fa-address-card"></i> -->
-<!-- 												</button> -->
 
-												<a class="btn btn-primary" 
+												<a class="btn btn-primary" th:href="@{/movement/detail/{id} (id=${movimentacao.id})}"
 												role="button"
 												>
 												<i class="fas fa-file-alt"></i>
@@ -139,9 +137,9 @@
 												
 											</div>
 											<div class="col-4">
-												<button class="btn btn-warning">
+												<a class="btn btn-warning" th:href="@{/movement/edit/{id} (id=${movimentacao.id})}">
 													<i class="fas fa-pencil-alt"></i>
-												</button>
+												</a>
 											</div>
 											
 												<div class="row">
@@ -152,8 +150,8 @@
 												>
 												<i class="fas fa-trash-alt"></i>
 												</a>
+												
 											</div>
-										</div>
 											
 											</td>
 										</tr>

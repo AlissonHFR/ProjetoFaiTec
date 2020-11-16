@@ -16,4 +16,7 @@ public interface MovementService {
 	boolean update(Movimentacao entity);
 	
 	boolean deleteById(Long id);
+	
+	void notificarViaEmail(String email, String texto);
+
 }

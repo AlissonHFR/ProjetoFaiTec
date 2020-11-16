@@ -8,63 +8,169 @@
 
 	<div layout:fragment="body">
 		<div class="content">
-                <div class="container-fluid">
-                    <div class="row">
-                        <div class="col-md-12">
-                            <div class="card">
-                                <div class="card-header">
-                                    <h4 class="card-title">Editar Perfil</h4>
-                                </div>
-                                <div class="card-body">
-                                    <form th:action="@{/user/update}" method="POST" th:object="${pFisica}">
-                                        <div class="row">
-                                            <div class="col-md-5 pr-1">
-                                                <div class="form-group" >
-                                                    <label >Nome Usuário (desabilitato)</label>
-                                                    <input type="text" class="form-control" disabled=""  th:field="${usuarioLogado.nomeUsuario}" >
-                                                </div>
-                                            </div>
-                                      
-                            
-                                        </div>
-                                        <div class="row">
-                                            <div class="col-md-12">
-                                                <div class="form-group">
-                                                    <label>Nome Completo</label>
-                                                    <input type="text" class="form-control"  th:field="${usuarioLogado.nomeCompleto}">
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="row">
-                                            <div class="col-md-6 pr-1">
-                                                <div class="form-group">
-                                                    <label>E-mail</label>
-                                                    <input type="text" class="form-control"  th:field="${usuarioLogado.email}">
-                                                </div>
-                                            </div>
-                                            <div class="col-md-6 pl-1">
-                                                <div class="form-group">
-                                                    <label>E-mail Alternativo</label>
-                                                    <input type="text" class="form-control"  th:field="${usuarioLogado.emailAlternativo}">
-                                                </div>
-                                            </div>
-                                        </div>
-                                        
-                             
-                                       <div>
-                                       <button type="submit" class="btn btn-info btn-fill pull-right" >Salvar</button>
-                                       <input type="hidden"  th:field="${usuarioLogado.id}" >
-                                       </div>
-                                        
-                                        <div class="clearfix"></div>
-                                    </form>
-                                </div>
-                            </div>
-                        </div>
-                        
-                    </div>
-                </div>
-            </div>
+			<div class="container-fluid">
+				<div class="row">
+					<div class="col-md-12">
+						<div class="card">
+							<div class="card-header">
+								<h4 class="card-title">Editar Perfil</h4>
+							</div>
+							<div class="card-body">
+								<form th:action="@{/user/update}" method="POST"
+									th:object="${pFisica}" onsubmit="return confirmaSenha()">
+									<div class="row">
+										<div class="col-md-5 pr-1">
+											<div class="form-group">
+												<label>Nome Usuário (desabilitato)</label> <input
+													type="text" class="form-control" disabled=""
+													th:field="${usuarioLogado.nomeUsuario}">
+											</div>
+										</div>
+
+
+									</div>
+									<div class="row">
+										<div class="col-md-12">
+											<div class="form-group">
+												<label>Nome Completo</label> <input type="text"
+													class="form-control"
+													th:field="${usuarioLogado.nomeCompleto}">
+											</div>
+										</div>
+									</div>
+									<div class="row">
+										<div class="col-md-6 pr-1">
+											<div class="form-group">
+												<label>E-mail</label> <input type="text"
+													class="form-control" th:field="${usuarioLogado.email}">
+											</div>
+										</div>
+										<div class="col-md-6 pl-1">
+											<div class="form-group">
+												<label>E-mail Alternativo</label> <input type="text"
+													class="form-control"
+													th:field="${usuarioLogado.emailAlternativo}">
+											</div>
+										</div>
+									</div>
+
+
+									<div>
+										<button type="submit" class="btn btn-info btn-fill pull-right">Salvar</button>
+										
+										
+										<input type="hidden" th:field="${usuarioLogado.id}"> 
+										<button class="btn btn-info btn-fill pull-left">
+										<a data-toggle="modal" data-target="#myModal">Alterar Senha</a></button>
+										
+
+										<!-- Modal -->
+										<div id="myModal" class="modal" role="dialog">
+											<div class="modal-dialog modal-hg">
+
+												<!-- Modal content-->
+												<div class="modal-content">
+													<br>
+													<div class="col s12 center-align">
+														<div
+															style="background: green; margin: -25px -25px 40px -25px;"
+															class="card">
+															<h5 style="color: white">Alterar Senha</h5>
+
+														</div>
+													</div>
+													<div class="modal-body">
+
+
+														<div class="row">
+
+															<div class="input-field col s12">
+																<input id="novaSenha" name="senha"
+																	placeholder="Digite a nova senha" type="password">
+																<label for="email">Nova senha</label>
+															</div>
+														</div>
+
+														<div class="row">
+															<!--<label>Confirmar senha</label>
+                                                                            <input id="confirmaNovaSenha" type="password"> -->
+															<div class="input-field col s12">
+																<input id="confirmaNovaSenha"
+																	placeholder="Digite novamente a senha" type="password">
+																<label>Confirmar senha</label>
+															</div>
+														</div>
+														<div class="modal-footer">
+															<button type="submit" class="btn-small">Atualizar</button>
+															<button type="button" style="background-color: white"
+																onclick="limpaCamposSenha()" class="btn-small"
+																data-dismiss="modal">Cancelar</button>
+														</div>
+													</div>
+												</div>
+
+											</div>
+										</div>
+
+										<script>
+											$(document)
+													.ready(
+															function() {
+																$('#myModal')
+																		.on(
+																				'hidden.bs.modal',
+																				function() {
+																					limpaCamposSenha();
+																				});
+															});
+
+											function limpaCamposSenha() {
+												var novaSenha = document
+														.getElementById("novaSenha");
+												var confirmaNovaSenha = document
+														.getElementById("confirmaNovaSenha");
+												confirmaNovaSenha.value = '';
+												novaSenha.value = '';
+											}
+
+											function confirmaSenha() {
+												var novaSenha = document
+														.getElementById("novaSenha");
+												var confirmaNovaSenha = document
+														.getElementById("confirmaNovaSenha");
+												if (novaSenha.value !== confirmaNovaSenha.value) {
+													alert('As senhas não sao iguais!');
+													confirmaNovaSenha.value = ''
+													return false;
+												} else if (novaSenha.value == ""
+														|| confirmaNovaSenha.value == "") {
+													alert('Senha em branco! A senha não será modificada!');
+												
+												}
+											}
+										</script>
+										<script
+											src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+										<script
+											src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+										<!-- Fim Modal Section -->
+
+
+									</div>
+									<div class="clearfix"></div>
+
+
+
+								</form>
+							</div>
+
+						</div>
+					</div>
+				</div>
+
+			</div>
+		</div>
+	</div>
 
 
 	</div>

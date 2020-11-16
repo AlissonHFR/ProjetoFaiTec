@@ -3,15 +3,15 @@
 --BEGIN: Populando Pessoa_fisica--
 INSERT INTO public.pessoa_fisica(
 	id, nome_usuario, nome_completo, email, email_alternativo, senha)
-	VALUES ('1','Gabrieli','Fernanda Gabrieli','gabrielicolisi@hotmail.com','gabriellycolly@hotmail.com',md5('admin'));
+	VALUES ('1','Gabrieli','Fernanda Gabrieli','gabrielicolisi@hotmail.com','gabriellycolly@hotmail.com','admin');
 
 INSERT INTO public.pessoa_fisica(
 	id, nome_usuario, nome_completo, email, email_alternativo, senha)
-	VALUES ('2','Vinicius','Vinicius Castro','vinicius@hotmail.com','viniciuscardoso@hotmail.com',md5('admin'));
+	VALUES ('2','Vinicius','Vinicius Castro','vinicius@hotmail.com','viniciuscardoso@hotmail.com','admin');
 
 INSERT INTO public.pessoa_fisica(
 	id, nome_usuario, nome_completo, email, email_alternativo, senha)
-	VALUES ('3','Alisson','Alisson Henrique','alisson@hotmail.com','alissonhenrique@hotmail.com',md5('admin'));
+	VALUES ('3','Alisson','Alisson Henrique','alisson@hotmail.com','alissonhenrique@hotmail.com','admin');
 --END: Populando Pessoa_fisica--
 
 

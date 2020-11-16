@@ -11,11 +11,11 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
+import br.fai.reggistre.client.service.MovementService;
 import br.fai.reggistre.client.service.UserService;
 import br.fai.reggistre.client.service.impl.UserServiceImpl;
 import br.fai.reggistre.model.entities.PessoaFisica;
@@ -26,11 +26,19 @@ public class UserController {
 	int erroLogin;
 	@Autowired
 	private UserService userService;
+	
+	@Autowired
+	private MovementService movimentService;
 
 	@GetMapping("/detail/{id}")
 	public ModelAndView getDetailPage(@PathVariable("id") Long id, Model model, HttpSession session) {
 		// PessoaFisica pFisica = userService.readById(id);
 		ModelAndView mv = null;
+		if (session.getAttribute("usuarioLogado") == null)
+		{
+			mv = new ModelAndView("redirect:/user/login");	
+			return mv;
+		}
 
 		mv = new ModelAndView("/user/detail");
 		mv.addObject("usuarioLogado", session.getAttribute("usuarioLogado"));
@@ -42,7 +50,10 @@ public class UserController {
 	public String getEditPage(@PathVariable("id") Long id, Model model, HttpSession session) {
 
 		// PessoaFisica pFisica = userService.readById(id);
-
+		if (session.getAttribute("usuarioLogado") == null)
+		{
+			return "redirect:/user/login";			
+		}
 		model.addAttribute("usuarioLogado", session.getAttribute("usuarioLogado"));
 
 		return "user/edit";
@@ -50,8 +61,12 @@ public class UserController {
 	}
 
 	@GetMapping("/list")
-	public String getListPage(Model model) {
+	public String getListPage(Model model, HttpSession session) {
 
+		if (session.getAttribute("usuarioLogado") == null)
+		{
+			return "redirect:/user/login";			
+		}
 		List<PessoaFisica> pFisicasList = userService.readAll();
 
 		if (pFisicasList != null && pFisicasList.size() != 0) {
@@ -85,7 +100,18 @@ public class UserController {
 	@PostMapping("/update")
 	public ModelAndView update(PessoaFisica pFisica, Model model, HttpSession session) {
 		ModelAndView mv = null;
-
+		if (session.getAttribute("usuarioLogado") == null)
+		{
+			mv = new ModelAndView("redirect:/user/login");	
+			return mv;
+		}
+		PessoaFisica pfAntesUpdate = userService.readById(pFisica.getId());
+		
+		if(pFisica.getSenha().equals(""))
+		{
+			pFisica.setSenha(pfAntesUpdate.getSenha());
+		}
+		
 		userService.update(pFisica);
 		pFisica = userService.readById(pFisica.getId());
 		session.setAttribute("usuarioLogado", pFisica);
@@ -99,7 +125,10 @@ public class UserController {
 	@RequestMapping(value = "/login", method = RequestMethod.GET)
 	public ModelAndView getFormLogin() throws Exception {
 		ModelAndView mv = null;
-
+		
+		//Email // Apenas teste
+		//movimentService.notificarViaEmail("gabrielicolisi@hotmail.com", "tchau");
+		//Email
 		mv = new ModelAndView("account/login");
 		mv.addObject("ErroLogin", erroLogin); // Caso queira controlar quando user errar a senha 1 vez
 		return mv;
@@ -111,10 +140,15 @@ public class UserController {
 		UserServiceImpl us = new UserServiceImpl();
 
 		PessoaFisica usuario = us.readByLogin(username, pass);
+		if (usuario == null) {
+			erroLogin = 1;
+			mv = new ModelAndView("redirect:/user/login");
+		} else {
+			erroLogin = 0;
+			session.setAttribute("usuarioLogado", usuario);
 
-		session.setAttribute("usuarioLogado", usuario);
-
-		mv = new ModelAndView("redirect:/dashboard");
+			mv = new ModelAndView("redirect:/dashboard");
+		}
 
 		return mv;
 	}
@@ -124,31 +158,30 @@ public class UserController {
 	public ModelAndView getUsuarioLogado(HttpSession session) throws Exception {
 		ModelAndView mv = null;
 
-	if(session.getAttribute("usuarioLogado")==null)
-	{
+		if (session.getAttribute("usuarioLogado") == null) {
 
-		mv = new ModelAndView("redirect:/user/login");
-		erroLogin = 1;
+			mv = new ModelAndView("redirect:/user/login");
+			erroLogin = 1;
+			return mv;
+		} else {
+
+			mv = new ModelAndView("/user/usuarioLogado");
+			mv.addObject("usuarioLogado", session.getAttribute("usuarioLogado"));
+		}
 		return mv;
-	}else
-	{
-
-		mv = new ModelAndView("/user/usuarioLogado");
-		mv.addObject("usuarioLogado", session.getAttribute("usuarioLogado"));
-	}return mv;
 	}
 
 	@RequestMapping(value = "/logout", method = RequestMethod.GET)
-    public ModelAndView logout(HttpSession session) {
-        ModelAndView mv = null;
-        if (session.getAttribute("usuarioLogado") != null) {
-            session.invalidate();
-            mv = new ModelAndView("redirect:/user/login");
-        } else {
-            mv = new ModelAndView("redirect:/user/login");
-        }
+	public ModelAndView logout(HttpSession session) {
+		ModelAndView mv = null;
+		if (session.getAttribute("usuarioLogado") != null) {
+			session.invalidate();
+			mv = new ModelAndView("redirect:/user/login");
+		} else {
+			mv = new ModelAndView("redirect:/user/login");
+		}
 
-        return mv;
-    }
+		return mv;
+	}
 
 }

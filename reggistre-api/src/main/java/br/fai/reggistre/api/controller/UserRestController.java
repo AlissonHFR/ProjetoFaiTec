@@ -87,13 +87,13 @@ public class UserRestController {
 	public ResponseEntity<PessoaFisica> readByLogin(@PathVariable("nomeUsuario") String nomeUsuario,
 			@PathVariable("senha") String senha) throws NoSuchAlgorithmException {
 
-//		MessageDigest md = MessageDigest.getInstance("MD5");
-//		byte[] messageDigest = md.digest(senha.getBytes());
-//		BigInteger no = new BigInteger(1, messageDigest);
-//		String SenhaHashtext = no.toString(16);
-//		while (SenhaHashtext.length() < 32) {
-//			SenhaHashtext = "0" + SenhaHashtext;
-//		}
+		MessageDigest md = MessageDigest.getInstance("MD5");
+		byte[] messageDigest = md.digest(senha.getBytes());
+		BigInteger no = new BigInteger(1, messageDigest);
+		String senhaHashtext = no.toString(16);
+		while (senhaHashtext.length() < 32) {
+			senhaHashtext = "0" + senhaHashtext;
+		}
 		
 
 		PessoaFisica pFisica = userService.readByLogin(nomeUsuario, senha);
